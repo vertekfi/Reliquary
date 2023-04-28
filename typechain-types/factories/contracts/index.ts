@@ -7,6 +7,7 @@ export * as helpers from "./helpers";
 export * as interfaces from "./interfaces";
 export * as nftDescriptors from "./nft_descriptors";
 export * as rewarders from "./rewarders";
+export * as test from "./test";
 export { Reliquary__factory } from "./Reliquary__factory";
 export { ReliquaryEvents__factory } from "./ReliquaryEvents__factory";
 export { ReliquaryGamified__factory } from "./ReliquaryGamified__factory";

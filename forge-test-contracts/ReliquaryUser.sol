@@ -3,8 +3,8 @@ pragma solidity ^0.8.15;
 
 import "forge-std/Test.sol";
 import "contracts/interfaces/IReliquary.sol";
-import "@openzeppelin/contracts/mocks/ERC20DecimalsMock.sol";
-import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+import "openzeppelin-contracts/contracts/mocks/ERC20DecimalsMock.sol";
+import "openzeppelin-contracts/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 interface Weth is IERC20 {
     function deposit() external payable;

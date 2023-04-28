@@ -13,6 +13,8 @@ import type * as nftDescriptors from "./nft_descriptors";
 export type { nftDescriptors };
 import type * as rewarders from "./rewarders";
 export type { rewarders };
+import type * as test from "./test";
+export type { test };
 export type { Reliquary } from "./Reliquary";
 export type { ReliquaryEvents } from "./ReliquaryEvents";
 export type { ReliquaryGamified } from "./ReliquaryGamified";

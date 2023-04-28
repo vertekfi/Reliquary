@@ -13,6 +13,10 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "Initializable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
       name: "AccessControl",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AccessControl__factory>;
@@ -36,6 +40,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC4626",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC4626__factory>;
+    getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
     getContractFactory(
       name: "IERC20Permit",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -200,7 +208,20 @@ declare module "hardhat/types/runtime" {
       name: "SingleAssetRewarder",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SingleAssetRewarder__factory>;
+    getContractFactory(
+      name: "EmissionCurveMock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EmissionCurveMock__factory>;
+    getContractFactory(
+      name: "ERC20Mock",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Mock__factory>;
 
+    getContractAt(
+      name: "Initializable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Initializable>;
     getContractAt(
       name: "AccessControl",
       address: string,
@@ -231,6 +252,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC4626>;
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
     getContractAt(
       name: "IERC20Permit",
       address: string,
@@ -436,6 +462,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SingleAssetRewarder>;
+    getContractAt(
+      name: "EmissionCurveMock",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EmissionCurveMock>;
+    getContractAt(
+      name: "ERC20Mock",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Mock>;
 
     // default types
     getContractFactory(

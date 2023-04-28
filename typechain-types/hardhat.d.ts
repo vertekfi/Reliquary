@@ -137,6 +137,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IWeth__factory>;
     getContractFactory(
+      name: "IAssetManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAssetManager__factory>;
+    getContractFactory(
       name: "IEmissionCurve",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IEmissionCurve__factory>;
@@ -372,6 +376,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IWeth>;
+    getContractAt(
+      name: "IAssetManager",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAssetManager>;
     getContractAt(
       name: "IEmissionCurve",
       address: string,

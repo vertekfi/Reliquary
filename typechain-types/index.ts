@@ -66,6 +66,8 @@ export type { IReaperVault } from "./contracts/helpers/DepositHelperReaperBPT.so
 export { IReaperVault__factory } from "./factories/contracts/helpers/DepositHelperReaperBPT.sol/IReaperVault__factory";
 export type { IReZap } from "./contracts/helpers/DepositHelperReaperBPT.sol/IReZap";
 export { IReZap__factory } from "./factories/contracts/helpers/DepositHelperReaperBPT.sol/IReZap__factory";
+export type { IAssetManager } from "./contracts/interfaces/IAssetManager";
+export { IAssetManager__factory } from "./factories/contracts/interfaces/IAssetManager__factory";
 export type { IEmissionCurve } from "./contracts/interfaces/IEmissionCurve";
 export { IEmissionCurve__factory } from "./factories/contracts/interfaces/IEmissionCurve__factory";
 export type { INFTDescriptor } from "./contracts/interfaces/INFTDescriptor";

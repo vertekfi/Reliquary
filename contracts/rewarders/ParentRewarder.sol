@@ -3,8 +3,8 @@
 pragma solidity ^0.8.17;
 
 import "./ChildRewarder.sol";
-import "openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol";
-import "openzeppelin-contracts/contracts/access/AccessControlEnumerable.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
 /// @title Extension to the SingleAssetRewarder contract that allows managing multiple reward tokens via access control
 /// and enumerable children contracts.
@@ -27,9 +27,11 @@ contract ParentRewarder is MultiplierRewarder, AccessControlEnumerable {
      * @param _rewardToken Address of token rewards are distributed in.
      * @param _reliquary Address of Reliquary this rewarder will read state from.
      */
-    constructor(uint _rewardMultiplier, address _rewardToken, address _reliquary)
-        MultiplierRewarder(_rewardMultiplier, _rewardToken, _reliquary)
-    {
+    constructor(
+        uint _rewardMultiplier,
+        address _rewardToken,
+        address _reliquary
+    ) MultiplierRewarder(_rewardMultiplier, _rewardToken, _reliquary) {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
@@ -50,11 +52,11 @@ contract ParentRewarder is MultiplierRewarder, AccessControlEnumerable {
      * @param owner Address to transfer ownership of the ChildRewarder contract to.
      * @return child Address of the new ChildRewarder.
      */
-    function createChild(address _rewardToken, uint _rewardMultiplier, address owner)
-        external
-        onlyRole(CHILD_SETTER)
-        returns (address child)
-    {
+    function createChild(
+        address _rewardToken,
+        uint _rewardMultiplier,
+        address owner
+    ) external onlyRole(CHILD_SETTER) returns (address child) {
         child = address(new ChildRewarder(_rewardMultiplier, _rewardToken, reliquary));
         Ownable(child).transferOwnership(owner);
         childrenRewarders.add(child);
@@ -74,7 +76,7 @@ contract ParentRewarder is MultiplierRewarder, AccessControlEnumerable {
         super._onReward(relicId, rewardAmount, to);
 
         uint length = childrenRewarders.length();
-        for (uint i; i < length;) {
+        for (uint i; i < length; ) {
             IRewarder(childrenRewarders.at(i)).onReward(relicId, rewardAmount, to);
             unchecked {
                 ++i;
@@ -94,12 +96,10 @@ contract ParentRewarder is MultiplierRewarder, AccessControlEnumerable {
     }
 
     /// @inheritdoc SingleAssetRewarder
-    function pendingTokens(uint relicId, uint rewardAmount)
-        external
-        view
-        override
-        returns (address[] memory rewardTokens, uint[] memory rewardAmounts)
-    {
+    function pendingTokens(
+        uint relicId,
+        uint rewardAmount
+    ) external view override returns (address[] memory rewardTokens, uint[] memory rewardAmounts) {
         uint length = childrenRewarders.length() + 1;
         rewardTokens = new address[](length);
         rewardTokens[0] = rewardToken;
@@ -107,7 +107,7 @@ contract ParentRewarder is MultiplierRewarder, AccessControlEnumerable {
         rewardAmounts = new uint[](length);
         rewardAmounts[0] = pendingToken(relicId, rewardAmount);
 
-        for (uint i = 1; i < length;) {
+        for (uint i = 1; i < length; ) {
             ChildRewarder rewarder = ChildRewarder(childrenRewarders.at(i - 1));
             rewardTokens[i] = rewarder.rewardToken();
             rewardAmounts[i] = rewarder.pendingToken(relicId, rewardAmount);

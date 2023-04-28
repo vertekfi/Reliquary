@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "openzeppelin-contracts/contracts/access/Ownable.sol";
-import "openzeppelin-contracts/contracts/interfaces/IERC4626.sol";
-import "openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/interfaces/IERC4626.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IReliquary, PositionInfo} from "../interfaces/IReliquary.sol";
 
 interface IWeth is IERC20 {
     function deposit() external payable;
+
     function withdraw(uint amount) external;
 }
 
@@ -39,7 +40,11 @@ contract DepositHelperERC4626 is Ownable {
     /// @notice Send `amount` of ERC20 tokens (or native ether for a supported pool) and create a new Relic in pool `pid`.
     function createRelicAndDeposit(uint pid, uint amount) external payable returns (uint relicId) {
         IERC4626 vault = _prepareDeposit(pid, amount);
-        relicId = IReliquary(reliquary).createRelicAndDeposit(msg.sender, pid, vault.balanceOf(address(this)));
+        relicId = IReliquary(reliquary).createRelicAndDeposit(
+            msg.sender,
+            pid,
+            vault.balanceOf(address(this))
+        );
     }
 
     /**
@@ -51,7 +56,7 @@ contract DepositHelperERC4626 is Ownable {
      * Only for supported pools.
      */
     function withdraw(uint amount, uint relicId, bool harvest, bool giveEther) external {
-        (IReliquary _reliquary,, IERC4626 vault) = _prepareWithdrawal(relicId);
+        (IReliquary _reliquary, , IERC4626 vault) = _prepareWithdrawal(relicId);
         _withdraw(_reliquary, vault, vault.convertToShares(amount), relicId, harvest, giveEther);
     }
 
@@ -63,7 +68,9 @@ contract DepositHelperERC4626 is Ownable {
      * Only for supported pools.
      */
     function withdrawAllAndHarvest(uint relicId, bool giveEther, bool burn) external {
-        (IReliquary _reliquary, PositionInfo memory position, IERC4626 vault) = _prepareWithdrawal(relicId);
+        (IReliquary _reliquary, PositionInfo memory position, IERC4626 vault) = _prepareWithdrawal(
+            relicId
+        );
         _withdraw(_reliquary, vault, position.amount, relicId, true, giveEther);
         if (burn) {
             _reliquary.burn(relicId);
@@ -100,11 +107,9 @@ contract DepositHelperERC4626 is Ownable {
         }
     }
 
-    function _prepareWithdrawal(uint relicId)
-        internal
-        view
-        returns (IReliquary _reliquary, PositionInfo memory position, IERC4626 vault)
-    {
+    function _prepareWithdrawal(
+        uint relicId
+    ) internal view returns (IReliquary _reliquary, PositionInfo memory position, IERC4626 vault) {
         _reliquary = IReliquary(reliquary);
         require(_reliquary.isApprovedOrOwner(msg.sender, relicId), "not owner or approved");
 
@@ -112,9 +117,14 @@ contract DepositHelperERC4626 is Ownable {
         vault = IERC4626(_reliquary.poolToken(position.poolId));
     }
 
-    function _withdraw(IReliquary _reliquary, IERC4626 vault, uint amount, uint relicId, bool harvest, bool giveEther)
-        internal
-    {
+    function _withdraw(
+        IReliquary _reliquary,
+        IERC4626 vault,
+        uint amount,
+        uint relicId,
+        bool harvest,
+        bool giveEther
+    ) internal {
         if (harvest) {
             _reliquary.withdrawAndHarvest(amount, relicId, msg.sender);
         } else {

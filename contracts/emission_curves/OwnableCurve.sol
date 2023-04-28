@@ -2,7 +2,7 @@
 pragma solidity ^0.8.17;
 
 import "../interfaces/IEmissionCurve.sol";
-import "openzeppelin-contracts/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract OwnableCurve is IEmissionCurve, Ownable {
     uint private rate;

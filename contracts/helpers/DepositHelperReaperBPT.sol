@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "openzeppelin-contracts/contracts/access/Ownable.sol";
-import "openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IReliquary, PositionInfo} from "../interfaces/IReliquary.sol";
 
 interface IReaperVault is IERC20 {
@@ -26,8 +26,11 @@ interface IReZap {
     }
 
     function zapIn(Step[] calldata steps, address crypt, uint tokenInAmount) external;
+
     function zapInETH(Step[] calldata steps, address crypt) external payable;
+
     function zapOut(Step[] calldata steps, address crypt, uint cryptAmount) external;
+
     function WETH() external view returns (address);
 }
 
@@ -57,7 +60,11 @@ contract DepositHelperReaperBPT is Ownable {
 
     receive() external payable {}
 
-    function deposit(IReZap.Step[] calldata steps, uint amount, uint relicId) external payable returns (uint shares) {
+    function deposit(
+        IReZap.Step[] calldata steps,
+        uint amount,
+        uint relicId
+    ) external payable returns (uint shares) {
         IReliquary _reliquary = IReliquary(reliquary);
         require(_reliquary.isApprovedOrOwner(msg.sender, relicId), "not owner or approved");
 
@@ -65,23 +72,41 @@ contract DepositHelperReaperBPT is Ownable {
         _reliquary.deposit(shares, relicId);
     }
 
-    function createRelicAndDeposit(IReZap.Step[] calldata steps, uint pid, uint amount)
-        external
-        payable
-        returns (uint relicId, uint shares)
-    {
+    function createRelicAndDeposit(
+        IReZap.Step[] calldata steps,
+        uint pid,
+        uint amount
+    ) external payable returns (uint relicId, uint shares) {
         shares = _prepareDeposit(steps, pid, amount);
         relicId = IReliquary(reliquary).createRelicAndDeposit(msg.sender, pid, shares);
     }
 
-    function withdraw(IReZap.Step[] calldata steps, uint shares, uint relicId, bool harvest, bool giveEther) external {
-        (IReliquary _reliquary,, IReaperVault vault) = _prepareWithdrawal(steps, relicId, giveEther);
+    function withdraw(
+        IReZap.Step[] calldata steps,
+        uint shares,
+        uint relicId,
+        bool harvest,
+        bool giveEther
+    ) external {
+        (IReliquary _reliquary, , IReaperVault vault) = _prepareWithdrawal(
+            steps,
+            relicId,
+            giveEther
+        );
         _withdraw(_reliquary, vault, steps, shares, relicId, harvest, giveEther);
     }
 
-    function withdrawAllAndHarvest(IReZap.Step[] calldata steps, uint relicId, bool giveEther, bool burn) external {
-        (IReliquary _reliquary, PositionInfo memory position, IReaperVault vault) =
-            _prepareWithdrawal(steps, relicId, giveEther);
+    function withdrawAllAndHarvest(
+        IReZap.Step[] calldata steps,
+        uint relicId,
+        bool giveEther,
+        bool burn
+    ) external {
+        (
+            IReliquary _reliquary,
+            PositionInfo memory position,
+            IReaperVault vault
+        ) = _prepareWithdrawal(steps, relicId, giveEther);
         _withdraw(_reliquary, vault, steps, position.amount, relicId, true, giveEther);
         if (burn) {
             _reliquary.burn(relicId);
@@ -97,7 +122,11 @@ contract DepositHelperReaperBPT is Ownable {
         }
     }
 
-    function _prepareDeposit(IReZap.Step[] calldata steps, uint pid, uint amount) internal returns (uint shares) {
+    function _prepareDeposit(
+        IReZap.Step[] calldata steps,
+        uint pid,
+        uint amount
+    ) internal returns (uint shares) {
         IReaperVault vault = IReaperVault(IReliquary(reliquary).poolToken(pid));
         IReZap _reZap = IReZap(reZap);
         if (msg.value != 0) {
@@ -118,7 +147,11 @@ contract DepositHelperReaperBPT is Ownable {
         }
     }
 
-    function _prepareWithdrawal(IReZap.Step[] calldata steps, uint relicId, bool giveEther)
+    function _prepareWithdrawal(
+        IReZap.Step[] calldata steps,
+        uint relicId,
+        bool giveEther
+    )
         internal
         view
         returns (IReliquary _reliquary, PositionInfo memory position, IReaperVault vault)

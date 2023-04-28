@@ -9,5 +9,8 @@ interface IRewarder {
 
     function onWithdraw(uint relicId, uint withdrawalAmount) external;
 
-    function pendingTokens(uint relicId, uint rewardAmount) external view returns (address[] memory, uint[] memory);
+    function pendingTokens(
+        uint relicId,
+        uint rewardAmount
+    ) external view returns (address[] memory, uint[] memory);
 }

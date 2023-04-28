@@ -3,7 +3,7 @@
 pragma solidity ^0.8.17;
 
 import "./MultiplierRewarder.sol";
-import "openzeppelin-contracts/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title Ownable extension of MultiplierRewarder that allows the owner to change the rewardMultiplier
 contract MultiplierRewarderOwnable is MultiplierRewarder, Ownable {
@@ -15,9 +15,11 @@ contract MultiplierRewarderOwnable is MultiplierRewarder, Ownable {
      * @param _rewardToken Address of token rewards are distributed in.
      * @param _reliquary Address of Reliquary this rewarder will read state from.
      */
-    constructor(uint _rewardMultiplier, address _rewardToken, address _reliquary)
-        MultiplierRewarder(_rewardMultiplier, _rewardToken, _reliquary)
-    {}
+    constructor(
+        uint _rewardMultiplier,
+        address _rewardToken,
+        address _reliquary
+    ) MultiplierRewarder(_rewardMultiplier, _rewardToken, _reliquary) {}
 
     /// @notice Set a new rewardMultiplier. Only callable by `owner`.
     function setRewardMultiplier(uint _rewardMultiplier) external onlyOwner {

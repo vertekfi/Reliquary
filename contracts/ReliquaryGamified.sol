@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import "./Reliquary.sol";
 import "./interfaces/IReliquaryGamified.sol";
-import "openzeppelin-contracts/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 
 contract ReliquaryGamified is Reliquary, IReliquaryGamified {
     /// @dev Access control role.
@@ -17,16 +17,22 @@ contract ReliquaryGamified is Reliquary, IReliquaryGamified {
     /// @dev Event emitted when a maturity bonus is actually applied.
     event MaturityBonus(uint indexed pid, address indexed to, uint indexed relicId, uint bonus);
 
-    constructor(address _rewardToken, address _emissionCurve, string memory name, string memory symbol)
-        Reliquary(_rewardToken, _emissionCurve, name, symbol)
-    {}
+    constructor(
+        address _rewardToken,
+        address _emissionCurve,
+        string memory _name,
+        string memory _symbol
+    ) Reliquary(_rewardToken, _emissionCurve, _name, _symbol) {}
 
     /**
      * @notice Allows an address with the MATURITY_MODIFIER role to modify a position's maturity.
      * @param relicId The NFT ID of the position being modified.
      * @param bonus Number of seconds to reduce the position's entry by (increasing maturity).
      */
-    function modifyMaturity(uint relicId, uint bonus) external override onlyRole(MATURITY_MODIFIER) {
+    function modifyMaturity(
+        uint relicId,
+        uint bonus
+    ) external override onlyRole(MATURITY_MODIFIER) {
         PositionInfo storage position = positionForId[relicId];
         position.entry -= bonus;
         _updatePosition(0, relicId, Kind.OTHER, address(0));
@@ -41,17 +47,21 @@ contract ReliquaryGamified is Reliquary, IReliquaryGamified {
     }
 
     /// @inheritdoc Reliquary
-    function createRelicAndDeposit(address to, uint pid, uint amount)
-        public
-        override(IReliquary, Reliquary)
-        returns (uint id)
-    {
+    function createRelicAndDeposit(
+        address to,
+        uint pid,
+        uint amount
+    ) public override(IReliquary, Reliquary) returns (uint id) {
         id = super.createRelicAndDeposit(to, pid, amount);
         genesis[id] = block.timestamp;
     }
 
     /// @inheritdoc Reliquary
-    function split(uint fromId, uint amount, address to) public override(IReliquary, Reliquary) returns (uint newId) {
+    function split(
+        uint fromId,
+        uint amount,
+        address to
+    ) public override(IReliquary, Reliquary) returns (uint newId) {
         newId = super.split(fromId, amount, to);
         genesis[newId] = block.timestamp;
     }
@@ -78,7 +88,11 @@ contract ReliquaryGamified is Reliquary, IReliquaryGamified {
     }
 
     /// @inheritdoc Reliquary
-    function supportsInterface(bytes4 interfaceId) public view override(IERC165, Reliquary) returns (bool) {
-        return interfaceId == type(IReliquaryGamified).interfaceId || super.supportsInterface(interfaceId);
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view override(IERC165, Reliquary) returns (bool) {
+        return
+            interfaceId == type(IReliquaryGamified).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 }

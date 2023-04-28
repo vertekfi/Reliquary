@@ -4,7 +4,7 @@ pragma solidity ^0.8.15;
 
 import "./SingleAssetRewarder.sol";
 import {IReliquary} from "../interfaces/IReliquary.sol";
-import "openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 /// @title Extension of SingleAssetRewarder contract that distributes a bonus for deposits of a minimum size made on a
 /// regular cadence.
@@ -26,9 +26,13 @@ contract DepositBonusRewarder is SingleAssetRewarder {
      * @param _rewardToken Address of token rewards are distributed in.
      * @param _reliquary Address of Reliquary this rewarder will read state from.
      */
-    constructor(uint _depositBonus, uint _minimum, uint _cadence, address _rewardToken, address _reliquary)
-        SingleAssetRewarder(_rewardToken, _reliquary)
-    {
+    constructor(
+        uint _depositBonus,
+        uint _minimum,
+        uint _cadence,
+        address _rewardToken,
+        address _reliquary
+    ) SingleAssetRewarder(_rewardToken, _reliquary) {
         require(_minimum != 0, "no minimum set!");
         require(_cadence >= 1 days, "please set a reasonable cadence");
         depositBonus = _depositBonus;
@@ -53,7 +57,11 @@ contract DepositBonusRewarder is SingleAssetRewarder {
     ) external override onlyReliquary {
         uint _lastDepositTime = lastDepositTime[relicId];
         delete lastDepositTime[relicId];
-        _claimDepositBonus(IReliquary(reliquary).ownerOf(relicId), block.timestamp, _lastDepositTime);
+        _claimDepositBonus(
+            IReliquary(reliquary).ownerOf(relicId),
+            block.timestamp,
+            _lastDepositTime
+        );
     }
 
     /**
@@ -62,7 +70,10 @@ contract DepositBonusRewarder is SingleAssetRewarder {
      * @param to Address to send the depositBonus to.
      */
     function claimDepositBonus(uint relicId, address to) external {
-        require(IReliquary(reliquary).isApprovedOrOwner(msg.sender, relicId), "not owner or approved");
+        require(
+            IReliquary(reliquary).isApprovedOrOwner(msg.sender, relicId),
+            "not owner or approved"
+        );
         uint _lastDepositTime = lastDepositTime[relicId];
         delete lastDepositTime[relicId];
         require(_claimDepositBonus(to, block.timestamp, _lastDepositTime), "nothing to claim");
@@ -86,7 +97,11 @@ contract DepositBonusRewarder is SingleAssetRewarder {
      * @param _lastDepositTime Time of last deposit into this position, before being updated.
      * @return claimed Whether depositBonus was actually claimed.
      */
-    function _claimDepositBonus(address to, uint timestamp, uint _lastDepositTime) internal returns (bool claimed) {
+    function _claimDepositBonus(
+        address to,
+        uint timestamp,
+        uint _lastDepositTime
+    ) internal returns (bool claimed) {
         if (_lastDepositTime != 0 && timestamp - _lastDepositTime >= cadence) {
             IERC20(rewardToken).safeTransfer(to, depositBonus);
             claimed = true;

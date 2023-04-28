@@ -23,3 +23,7 @@ types
 forge-cache
 out
 broadcast
+
+# zkSync
+cache-zk
+artifacts-zk

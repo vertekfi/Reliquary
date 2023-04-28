@@ -42,7 +42,10 @@ abstract contract SingleAssetRewarder is IRewarder {
      * Interface supports multiple tokens.
      * @param rewardAmount Amount of reward token owed for this position from the Reliquary.
      */
-    function pendingTokens(uint relicId, uint rewardAmount)
+    function pendingTokens(
+        uint relicId,
+        uint rewardAmount
+    )
         external
         view
         virtual
@@ -58,5 +61,8 @@ abstract contract SingleAssetRewarder is IRewarder {
 
     /// @notice Returns the amount of pending rewardToken for a position from this rewarder.
     /// @param rewardAmount Amount of reward token owed for this position from the Reliquary.
-    function pendingToken(uint relicId, uint rewardAmount) public view virtual returns (uint pending) {}
+    function pendingToken(
+        uint relicId,
+        uint rewardAmount
+    ) public view virtual returns (uint pending) {}
 }

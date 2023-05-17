@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "../interfaces/INFTDescriptor.sol";
 import "../interfaces/IReliquary.sol";
 
-contract BeetsNftDescriptor is INFTDescriptor, AccessControl {
+contract NftDescriptorMock is INFTDescriptor, AccessControl {
     using Strings for uint;
 
     bytes32 public constant OPERATOR = keccak256("OPERATOR");
@@ -19,6 +19,7 @@ contract BeetsNftDescriptor is INFTDescriptor, AccessControl {
         IPFS = _ipfs;
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(OPERATOR, msg.sender);
     }
 
     /// @notice Generate tokenURI as a base64 encoding from live on-chain values

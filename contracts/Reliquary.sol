@@ -9,7 +9,6 @@ import "./interfaces/INFTDescriptor.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/utils/Multicall.sol";
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
@@ -31,7 +30,6 @@ contract Reliquary is
     ERC721Burnable,
     ERC721Enumerable,
     AccessControlEnumerable,
-    Multicall,
     ReentrancyGuard
 {
     using SafeERC20 for IERC20;
@@ -295,9 +293,9 @@ contract Reliquary is
     function harvest(uint relicId, address harvestTo) external override nonReentrant {
         _requireApprovedOrOwner(relicId);
 
-        (uint poolId, uint _pendingReward) = _updatePosition(0, relicId, Kind.OTHER, harvestTo);
+        (uint poolId, uint rewardReceived) = _updatePosition(0, relicId, Kind.OTHER, harvestTo);
 
-        emit ReliquaryEvents.Harvest(poolId, _pendingReward, harvestTo, relicId);
+        emit ReliquaryEvents.Harvest(poolId, rewardReceived, harvestTo, relicId);
     }
 
     /**

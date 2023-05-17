@@ -129,7 +129,6 @@ export interface ReliquaryGamifiedInterface extends utils.Interface {
     "merge(uint256,uint256)": FunctionFragment;
     "modifyMaturity(uint256,uint256)": FunctionFragment;
     "modifyPool(uint256,uint256,address,string,address,bool)": FunctionFragment;
-    "multicall(bytes[])": FunctionFragment;
     "name()": FunctionFragment;
     "nftDescriptor(uint256)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
@@ -193,7 +192,6 @@ export interface ReliquaryGamifiedInterface extends utils.Interface {
       | "merge"
       | "modifyMaturity"
       | "modifyPool"
-      | "multicall"
       | "name"
       | "nftDescriptor"
       | "ownerOf"
@@ -361,10 +359,6 @@ export interface ReliquaryGamifiedInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<boolean>
     ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "multicall",
-    values: [PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -589,7 +583,6 @@ export interface ReliquaryGamifiedInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "modifyPool", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "multicall", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "nftDescriptor",
@@ -972,11 +965,6 @@ export interface ReliquaryGamified extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    multicall(
-      data: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     name(overrides?: CallOverrides): Promise<[string]>;
 
     nftDescriptor(
@@ -1302,11 +1290,6 @@ export interface ReliquaryGamified extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  multicall(
-    data: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   name(overrides?: CallOverrides): Promise<string>;
 
   nftDescriptor(
@@ -1625,11 +1608,6 @@ export interface ReliquaryGamified extends BaseContract {
       overwriteRewarder: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    multicall(
-      data: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<string[]>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -2032,11 +2010,6 @@ export interface ReliquaryGamified extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    multicall(
-      data: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
     nftDescriptor(
@@ -2351,11 +2324,6 @@ export interface ReliquaryGamified extends BaseContract {
       name: PromiseOrValue<string>,
       _nftDescriptor: PromiseOrValue<string>,
       overwriteRewarder: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    multicall(
-      data: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

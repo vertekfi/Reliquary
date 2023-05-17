@@ -104,8 +104,10 @@ contract Reliquary is
     ) ERC721(_name, _symbol) {
         rewardToken = _rewardToken;
         emissionCurve = _emissionCurve;
+
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(OPERATOR, msg.sender);
+        _grantRole(EMISSION_CURVE, msg.sender);
     }
 
     /// @notice Sets a new EmissionCurve for overall rewardToken emissions. Can only be called with the proper role.

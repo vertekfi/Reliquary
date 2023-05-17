@@ -97,6 +97,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Multicall__factory>;
     getContractFactory(
+      name: "AccessControlCurve",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AccessControlCurve__factory>;
+    getContractFactory(
       name: "Constant",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Constant__factory>;
@@ -326,6 +330,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Multicall>;
+    getContractAt(
+      name: "AccessControlCurve",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControlCurve>;
     getContractAt(
       name: "Constant",
       address: string,

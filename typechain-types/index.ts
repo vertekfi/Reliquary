@@ -48,6 +48,8 @@ export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
 export type { Multicall } from "./@openzeppelin/contracts/utils/Multicall";
 export { Multicall__factory } from "./factories/@openzeppelin/contracts/utils/Multicall__factory";
+export type { AccessControlCurve } from "./contracts/emission_curves/AccessControlCurve";
+export { AccessControlCurve__factory } from "./factories/contracts/emission_curves/AccessControlCurve__factory";
 export type { Constant } from "./contracts/emission_curves/Constant";
 export { Constant__factory } from "./factories/contracts/emission_curves/Constant__factory";
 export type { OwnableCurve } from "./contracts/emission_curves/OwnableCurve";

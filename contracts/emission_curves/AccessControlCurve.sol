@@ -25,6 +25,6 @@ contract AccessControlCurve is IEmissionCurve, AccessControl {
 
     function _setRate(uint rate) internal {
         _rewardPerSecond = rate;
-        emit LogRate(_rate);
+        emit LogRate(rate);
     }
 }

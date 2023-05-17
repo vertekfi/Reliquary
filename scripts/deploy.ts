@@ -1,17 +1,24 @@
+import { parseUnits } from "ethers/lib/utils";
 import { ethers } from "hardhat";
 
 async function main() {
   const rewardToken = "0x412A1ab6A00B50A7ad2306C994ae609Bd823ad87"; // The current "ARTK"(Or whatever its called then)
-  const emissionsCurve = ethers.constants.AddressZero;
 
-  // const Reliquary = await ethers.getContractFactory("Reliquary");
-  // const reliq = await Reliquary.deploy(rewardToken, emissionsCurve, "Reliquary", "RELIQ");
-  // await reliq.deployed();
+  const OwnableCurve = await ethers.getContractFactory("OwnableCurve");
+  const rate = parseUnits("1", 17);
+  console.log("rate: " + rate.toString());
+  const emissionsCurve = await OwnableCurve.deploy(rate);
+  await emissionsCurve.deployed();
 
-  // console.log(`Reliquary deployed to: ${reliq.address}`);
+  console.log(`OwnableCurve deployed to: ${emissionsCurve.address}`);
 
   const ReliquaryGamified = await ethers.getContractFactory("ReliquaryGamified");
-  const reliq = await ReliquaryGamified.deploy(rewardToken, emissionsCurve, "Reliquary", "RELIQ");
+  const reliq = await ReliquaryGamified.deploy(
+    rewardToken,
+    emissionsCurve.address,
+    "Reliquary",
+    "RELIQ"
+  );
   await reliq.deployed();
 
   console.log(`ReliquaryGamified deployed to: ${reliq.address}`);

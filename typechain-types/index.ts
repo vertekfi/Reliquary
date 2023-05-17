@@ -110,3 +110,5 @@ export type { EmissionCurveMock } from "./contracts/test/EmissionCurveMock";
 export { EmissionCurveMock__factory } from "./factories/contracts/test/EmissionCurveMock__factory";
 export type { ERC20Mock } from "./contracts/test/ERC20Mock";
 export { ERC20Mock__factory } from "./factories/contracts/test/ERC20Mock__factory";
+export type { BeetsNftDescriptor } from "./contracts/test/NFTDescriptorMock.sol/BeetsNftDescriptor";
+export { BeetsNftDescriptor__factory } from "./factories/contracts/test/NFTDescriptorMock.sol/BeetsNftDescriptor__factory";

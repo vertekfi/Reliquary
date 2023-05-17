@@ -224,6 +224,10 @@ declare module "hardhat/types/runtime" {
       name: "ERC20Mock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20Mock__factory>;
+    getContractFactory(
+      name: "BeetsNftDescriptor",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BeetsNftDescriptor__factory>;
 
     getContractAt(
       name: "Initializable",
@@ -490,6 +494,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20Mock>;
+    getContractAt(
+      name: "BeetsNftDescriptor",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BeetsNftDescriptor>;
 
     // default types
     getContractFactory(

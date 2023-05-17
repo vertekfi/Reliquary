@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { BeetsNftDescriptor } from "./BeetsNftDescriptor";
+export type { NftDescriptorMock } from "./NftDescriptorMock";

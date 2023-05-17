@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { BeetsNftDescriptor__factory } from "./BeetsNftDescriptor__factory";
+export { NftDescriptorMock__factory } from "./NftDescriptorMock__factory";

@@ -107,6 +107,7 @@ contract Reliquary is
         rewardToken = _rewardToken;
         emissionCurve = _emissionCurve;
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(OPERATOR, msg.sender);
     }
 
     /// @notice Sets a new EmissionCurve for overall rewardToken emissions. Can only be called with the proper role.
@@ -123,7 +124,7 @@ contract Reliquary is
      * @param _rewarder Address of the rewarder delegate.
      * @param requiredMaturities Array of maturity (in seconds) required to achieve each level for this pool.
      * @param levelMultipliers The multipliers applied to the amount of `_poolToken` for each level within this pool.
-     * @param name Name of pool to be displayed in NFT image.
+     * @param _name Name of pool to be displayed in NFT image.
      * @param _nftDescriptor The contract address for NFTDescriptor, which will return the token URI.
      * @param allowPartialWithdrawals Whether users can withdraw less than their entire position. A value of false
      * will also disable shift and split functionality. This is useful for adding pools with decreasing levelMultipliers.
@@ -134,7 +135,7 @@ contract Reliquary is
         address _rewarder,
         uint[] calldata requiredMaturities,
         uint[] calldata levelMultipliers,
-        string memory name,
+        string memory _name,
         address _nftDescriptor,
         bool allowPartialWithdrawals
     ) external override onlyRole(OPERATOR) {
@@ -162,6 +163,7 @@ contract Reliquary is
 
         uint totalAlloc = totalAllocPoint + allocPoint;
         if (totalAlloc == 0) revert ZeroTotalAllocPoint();
+
         totalAllocPoint = totalAlloc;
         poolToken.push(_poolToken);
         rewarder.push(_rewarder);
@@ -172,7 +174,7 @@ contract Reliquary is
                 allocPoint: allocPoint,
                 lastRewardTime: block.timestamp,
                 accRewardPerShare: 0,
-                name: name,
+                name: _name,
                 allowPartialWithdrawals: allowPartialWithdrawals
             })
         );

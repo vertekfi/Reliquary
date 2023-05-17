@@ -763,7 +763,7 @@ export interface Reliquary extends BaseContract {
       _rewarder: PromiseOrValue<string>,
       requiredMaturities: PromiseOrValue<BigNumberish>[],
       levelMultipliers: PromiseOrValue<BigNumberish>[],
-      name: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
       _nftDescriptor: PromiseOrValue<string>,
       allowPartialWithdrawals: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1074,7 +1074,7 @@ export interface Reliquary extends BaseContract {
     _rewarder: PromiseOrValue<string>,
     requiredMaturities: PromiseOrValue<BigNumberish>[],
     levelMultipliers: PromiseOrValue<BigNumberish>[],
-    name: PromiseOrValue<string>,
+    _name: PromiseOrValue<string>,
     _nftDescriptor: PromiseOrValue<string>,
     allowPartialWithdrawals: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1377,7 +1377,7 @@ export interface Reliquary extends BaseContract {
       _rewarder: PromiseOrValue<string>,
       requiredMaturities: PromiseOrValue<BigNumberish>[],
       levelMultipliers: PromiseOrValue<BigNumberish>[],
-      name: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
       _nftDescriptor: PromiseOrValue<string>,
       allowPartialWithdrawals: PromiseOrValue<boolean>,
       overrides?: CallOverrides
@@ -1749,7 +1749,7 @@ export interface Reliquary extends BaseContract {
       _rewarder: PromiseOrValue<string>,
       requiredMaturities: PromiseOrValue<BigNumberish>[],
       levelMultipliers: PromiseOrValue<BigNumberish>[],
-      name: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
       _nftDescriptor: PromiseOrValue<string>,
       allowPartialWithdrawals: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2050,7 +2050,7 @@ export interface Reliquary extends BaseContract {
       _rewarder: PromiseOrValue<string>,
       requiredMaturities: PromiseOrValue<BigNumberish>[],
       levelMultipliers: PromiseOrValue<BigNumberish>[],
-      name: PromiseOrValue<string>,
+      _name: PromiseOrValue<string>,
       _nftDescriptor: PromiseOrValue<string>,
       allowPartialWithdrawals: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

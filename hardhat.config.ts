@@ -1,9 +1,10 @@
 import * as dotenv from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-import "@openzeppelin/hardhat-upgrades";
-import "@matterlabs/hardhat-zksync-deploy";
-import "@matterlabs/hardhat-zksync-solc";
+import "hardhat-local-networks-config-plugin";
+// import "@openzeppelin/hardhat-upgrades";
+// import "@matterlabs/hardhat-zksync-deploy";
+// import "@matterlabs/hardhat-zksync-solc";
 
 dotenv.config();
 
@@ -53,38 +54,38 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  zksolc: {
-    version: "1.3.8",
-    compilerSource: "binary",
-    settings: {},
-  },
+  // zksolc: {
+  //   version: "1.3.8",
+  //   compilerSource: "binary",
+  //   settings: {},
+  // },
 
-  defaultNetwork: "zkSyncTestnet",
-  networks: {
-    hardhat: {
-      zksync: true,
-      //   accounts: [
-      //     {
-      //       privateKey: ZKSYNC_TEST_WALLET_PK,
-      //       balance: "10000",
-      //     },
-      //   ],
-    },
-    zkSyncTestnet,
-    zkSync: {
-      url: "https://testnet.era.zksync.dev",
-      ethNetwork: "mainnet",
-      zksync: true,
-    },
-    bsc: {
-      url: process.env.BSC_RPC || "",
-      accounts,
-    },
-    arbitrum: {
-      url: process.env.ARBITRUM_RPC || "",
-      accounts,
-    },
-  },
+  // networks: {
+  //   hardhat: {
+  //     zksync: true,
+  //     accounts: [
+  //       {
+  //         privateKey: ZKSYNC_TEST_WALLET_PK,
+  //         balance: "10000",
+  //       },
+  //     ],
+  //   },
+  //   zkSyncTestnet,
+  //   zkSync: {
+  //     url: "https://testnet.era.zksync.dev",
+  //     ethNetwork: "mainnet",
+  //     zksync: true,
+  //   },
+
+  //   bsc: {
+  //     url: process.env.BSC_RPC || "",
+  //     accounts,
+  //   },
+  //   arbitrum: {
+  //     url: process.env.ARBITRUM_RPC || "",
+  //     accounts,
+  //   },
+  // },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
   },

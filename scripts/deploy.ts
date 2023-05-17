@@ -4,13 +4,13 @@ import { ethers } from "hardhat";
 async function main() {
   const rewardToken = "0x412A1ab6A00B50A7ad2306C994ae609Bd823ad87"; // The current "ARTK"(Or whatever its called then)
 
-  const OwnableCurve = await ethers.getContractFactory("OwnableCurve");
+  const AccessControlCurve = await ethers.getContractFactory("AccessControlCurve");
   const rate = parseUnits("1", 17);
   console.log("rate: " + rate.toString());
-  const emissionsCurve = await OwnableCurve.deploy(rate);
+  const emissionsCurve = await AccessControlCurve.deploy(rate);
   await emissionsCurve.deployed();
 
-  console.log(`OwnableCurve deployed to: ${emissionsCurve.address}`);
+  console.log(`AccessControlCurve deployed to: ${emissionsCurve.address}`);
 
   const ReliquaryGamified = await ethers.getContractFactory("ReliquaryGamified");
   const reliq = await ReliquaryGamified.deploy(

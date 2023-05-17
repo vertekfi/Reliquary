@@ -33,6 +33,8 @@ contract ParentRewarder is MultiplierRewarder, AccessControlEnumerable {
         address _reliquary
     ) MultiplierRewarder(_rewardMultiplier, _rewardToken, _reliquary) {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(REWARD_SETTER, msg.sender);
+        _grantRole(CHILD_SETTER, msg.sender);
     }
 
     /**

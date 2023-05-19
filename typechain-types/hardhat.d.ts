@@ -13,9 +13,41 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "AccessControlEnumerableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AccessControlEnumerableUpgradeable__factory>;
+    getContractFactory(
+      name: "AccessControlUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AccessControlUpgradeable__factory>;
+    getContractFactory(
+      name: "IAccessControlEnumerableUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAccessControlEnumerableUpgradeable__factory>;
+    getContractFactory(
+      name: "IAccessControlUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAccessControlUpgradeable__factory>;
+    getContractFactory(
       name: "Initializable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
+      name: "ReentrancyGuardUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReentrancyGuardUpgradeable__factory>;
+    getContractFactory(
+      name: "ContextUpgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ContextUpgradeable__factory>;
+    getContractFactory(
+      name: "ERC165Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC165Upgradeable__factory>;
+    getContractFactory(
+      name: "IERC165Upgradeable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC165Upgradeable__factory>;
     getContractFactory(
       name: "AccessControl",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -193,6 +225,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReliquaryGamified__factory>;
     getContractFactory(
+      name: "ReliquaryVoting",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReliquaryVoting__factory>;
+    getContractFactory(
       name: "ChildRewarder",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ChildRewarder__factory>;
@@ -225,19 +261,55 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20Mock__factory>;
     getContractFactory(
-      name: "BeetsNftDescriptor",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BeetsNftDescriptor__factory>;
-    getContractFactory(
       name: "NftDescriptorMock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.NftDescriptorMock__factory>;
 
     getContractAt(
+      name: "AccessControlEnumerableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControlEnumerableUpgradeable>;
+    getContractAt(
+      name: "AccessControlUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControlUpgradeable>;
+    getContractAt(
+      name: "IAccessControlEnumerableUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControlEnumerableUpgradeable>;
+    getContractAt(
+      name: "IAccessControlUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControlUpgradeable>;
+    getContractAt(
       name: "Initializable",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Initializable>;
+    getContractAt(
+      name: "ReentrancyGuardUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReentrancyGuardUpgradeable>;
+    getContractAt(
+      name: "ContextUpgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ContextUpgradeable>;
+    getContractAt(
+      name: "ERC165Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165Upgradeable>;
+    getContractAt(
+      name: "IERC165Upgradeable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165Upgradeable>;
     getContractAt(
       name: "AccessControl",
       address: string,
@@ -459,6 +531,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ReliquaryGamified>;
     getContractAt(
+      name: "ReliquaryVoting",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReliquaryVoting>;
+    getContractAt(
       name: "ChildRewarder",
       address: string,
       signer?: ethers.Signer
@@ -498,11 +575,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20Mock>;
-    getContractAt(
-      name: "BeetsNftDescriptor",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.BeetsNftDescriptor>;
     getContractAt(
       name: "NftDescriptorMock",
       address: string,

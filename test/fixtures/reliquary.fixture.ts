@@ -1,50 +1,44 @@
-import * as hre from "hardhat";
-import { Deployer } from "@matterlabs/hardhat-zksync-deploy";
-import { Wallet, Provider, Contract } from "zksync-web3";
-
-const RICH_WALLET_PK = "0x7726827caac94a7f9e1b160f7ea819f172f7b6f9d2a97f992c38edeab82d4110";
+import { ethers } from "hardhat";
+import { parseUnits } from "ethers/lib/utils";
 
 export async function reliquaryFixture() {
-  const wallet = new Wallet(RICH_WALLET_PK);
-  const deployer = new Deployer(hre, wallet);
+  const rewardToken = "0x412A1ab6A00B50A7ad2306C994ae609Bd823ad87"; // The current "ARTK"(Or whatever its called then)
+  const reliquary = "0xb617d3584cbE69f04c2dEA54dF0d48876b793699";
 
-  const ERC20MockArtifact = await deployer.loadArtifact("ERC20Mock");
-  const rewardToken = await deployer.deploy(ERC20MockArtifact, []);
-  await rewardToken.deployed();
+  const AccessControlCurve = await ethers.getContractFactory("AccessControlCurve");
+  const rate = parseUnits("1", 17);
+  console.log("rate: " + rate.toString());
+  const emissionsCurve = await AccessControlCurve.deploy(rate);
+  await emissionsCurve.deployed();
 
-  // const ERC20Mock = await hre.ethers.getContractFactory("ERC20Mock");
-  // const rewardToken = await ERC20Mock.deploy();
-  // await rewardToken.deployed();
+  console.log(`AccessControlCurve deployed to: ${emissionsCurve.address}`);
 
-  const EmissionCurveMock = await deployer.loadArtifact("EmissionCurveMock");
-  const emissionCurve = await deployer.deploy(EmissionCurveMock, []);
-  await emissionCurve.deployed();
-
-  // const EmissionCurveMock = await hre.ethers.getContractFactory("EmissionCurveMock");
-  // const emissionCurve = await hre.upgrades.deployProxy(EmissionCurveMock, [0]);
-  // await emissionCurve.deployed();
-
-  //   const Reliquary = await hre.ethers.getContractFactory("Reliquary");
-  //   const reliquary = await hre.upgrades.deployProxy(Reliquary, [
-  //     rewardToken.address,
-  //     emissionCurve.address,
-  //     "Reliquary",
-  //     "RELIQ",
-  //   ]);
-  //   await reliquary.deployed();
-
-  const Reliquary = await deployer.loadArtifact("Reliquary");
-  const reliquary = await deployer.deploy(Reliquary, [
-    rewardToken.address,
-    emissionCurve.address,
+  const ReliquaryGamified = await ethers.getContractFactory("ReliquaryGamified");
+  const reliq = await ReliquaryGamified.deploy(
+    rewardToken,
+    emissionsCurve.address,
     "Reliquary",
-    "RELIQ",
-  ]);
-  await reliquary.deployed();
+    "RELIQ"
+  );
+  await reliq.deployed();
+
+  console.log(`ReliquaryGamified deployed to: ${reliq.address}`);
+
+  const NftDescriptor = await ethers.getContractFactory("NftDescriptorMock");
+  const tokenURI = "";
+  const descriptor = await NftDescriptor.deploy(reliquary, tokenURI);
+  await descriptor.deployed();
+  console.log(`NftDescriptor deployed to: ${descriptor.address}`);
+
+  const ParentRewarder = await ethers.getContractFactory("ParentRewarder");
+  const rewarder = await ParentRewarder.deploy(parseUnits("1"), rewardToken, reliquary);
+  await rewarder.deployed();
+  console.log(`ParentRewarder deployed to: ${rewarder.address}`);
 
   return {
     reliquary,
-    emissionCurve,
+    emissionsCurve,
     rewardToken,
+    rewarder,
   };
 }

@@ -18,3 +18,4 @@ export type { test };
 export type { Reliquary } from "./Reliquary";
 export type { ReliquaryEvents } from "./ReliquaryEvents";
 export type { ReliquaryGamified } from "./ReliquaryGamified";
+export type { ReliquaryVoting } from "./ReliquaryVoting";

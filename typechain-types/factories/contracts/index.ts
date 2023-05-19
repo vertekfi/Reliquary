@@ -11,3 +11,4 @@ export * as test from "./test";
 export { Reliquary__factory } from "./Reliquary__factory";
 export { ReliquaryEvents__factory } from "./ReliquaryEvents__factory";
 export { ReliquaryGamified__factory } from "./ReliquaryGamified__factory";
+export { ReliquaryVoting__factory } from "./ReliquaryVoting__factory";

@@ -30,35 +30,37 @@ import type {
 export interface ReliquaryVotingInterface extends utils.Interface {
   functions: {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "getPositionVotingPower(uint256)": FunctionFragment;
+    "getPositionVotingPower(address)": FunctionFragment;
+    "getReliquary()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "getRoleMember(bytes32,uint256)": FunctionFragment;
     "getRoleMemberCount(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "initialize(address)": FunctionFragment;
-    "reliquary()": FunctionFragment;
+    "initialize(address,uint256)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "vote()": FunctionFragment;
+    "votingPoolId()": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "DEFAULT_ADMIN_ROLE"
       | "getPositionVotingPower"
+      | "getReliquary"
       | "getRoleAdmin"
       | "getRoleMember"
       | "getRoleMemberCount"
       | "grantRole"
       | "hasRole"
       | "initialize"
-      | "reliquary"
       | "renounceRole"
       | "revokeRole"
       | "supportsInterface"
       | "vote"
+      | "votingPoolId"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -67,7 +69,11 @@ export interface ReliquaryVotingInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getPositionVotingPower",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getReliquary",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -91,9 +97,8 @@ export interface ReliquaryVotingInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [PromiseOrValue<string>]
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(functionFragment: "reliquary", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
@@ -107,6 +112,10 @@ export interface ReliquaryVotingInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "vote", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "votingPoolId",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
@@ -114,6 +123,10 @@ export interface ReliquaryVotingInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getPositionVotingPower",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getReliquary",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -131,7 +144,6 @@ export interface ReliquaryVotingInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "reliquary", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
     data: BytesLike
@@ -142,6 +154,10 @@ export interface ReliquaryVotingInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "vote", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "votingPoolId",
+    data: BytesLike
+  ): Result;
 
   events: {
     "Initialized(uint8)": EventFragment;
@@ -230,9 +246,11 @@ export interface ReliquaryVoting extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
     getPositionVotingPower(
-      relicId: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<[BigNumber] & { votingPower: BigNumber }>;
+
+    getReliquary(overrides?: CallOverrides): Promise<[string]>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -263,11 +281,10 @@ export interface ReliquaryVoting extends BaseContract {
     ): Promise<[boolean]>;
 
     initialize(
-      _reliquary: PromiseOrValue<string>,
+      reliquary: PromiseOrValue<string>,
+      poolId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    reliquary(overrides?: CallOverrides): Promise<[string]>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -289,14 +306,18 @@ export interface ReliquaryVoting extends BaseContract {
     vote(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    votingPoolId(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   getPositionVotingPower(
-    relicId: PromiseOrValue<BigNumberish>,
+    account: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  getReliquary(overrides?: CallOverrides): Promise<string>;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
@@ -327,11 +348,10 @@ export interface ReliquaryVoting extends BaseContract {
   ): Promise<boolean>;
 
   initialize(
-    _reliquary: PromiseOrValue<string>,
+    reliquary: PromiseOrValue<string>,
+    poolId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  reliquary(overrides?: CallOverrides): Promise<string>;
 
   renounceRole(
     role: PromiseOrValue<BytesLike>,
@@ -354,13 +374,17 @@ export interface ReliquaryVoting extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  votingPoolId(overrides?: CallOverrides): Promise<BigNumber>;
+
   callStatic: {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     getPositionVotingPower(
-      relicId: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getReliquary(overrides?: CallOverrides): Promise<string>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -391,11 +415,10 @@ export interface ReliquaryVoting extends BaseContract {
     ): Promise<boolean>;
 
     initialize(
-      _reliquary: PromiseOrValue<string>,
+      reliquary: PromiseOrValue<string>,
+      poolId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    reliquary(overrides?: CallOverrides): Promise<string>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -415,6 +438,8 @@ export interface ReliquaryVoting extends BaseContract {
     ): Promise<boolean>;
 
     vote(overrides?: CallOverrides): Promise<void>;
+
+    votingPoolId(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {
@@ -459,9 +484,11 @@ export interface ReliquaryVoting extends BaseContract {
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPositionVotingPower(
-      relicId: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getReliquary(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -492,11 +519,10 @@ export interface ReliquaryVoting extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _reliquary: PromiseOrValue<string>,
+      reliquary: PromiseOrValue<string>,
+      poolId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
-
-    reliquary(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -518,6 +544,8 @@ export interface ReliquaryVoting extends BaseContract {
     vote(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    votingPoolId(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -526,9 +554,11 @@ export interface ReliquaryVoting extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getPositionVotingPower(
-      relicId: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getReliquary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -559,11 +589,10 @@ export interface ReliquaryVoting extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _reliquary: PromiseOrValue<string>,
+      reliquary: PromiseOrValue<string>,
+      poolId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
-
-    reliquary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -585,5 +614,7 @@ export interface ReliquaryVoting extends BaseContract {
     vote(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    votingPoolId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

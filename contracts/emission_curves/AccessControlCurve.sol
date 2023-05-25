@@ -19,8 +19,8 @@ contract AccessControlCurve is IEmissionCurve, AccessControl {
         _setRate(rate);
     }
 
-    function getRate(uint) external view override returns (uint) {
-        return _rewardPerSecond;
+    function getRate(uint lastRewardTime) external view override returns (uint) {
+        return _rewardPerSecond * lastRewardTime;
     }
 
     function _setRate(uint rate) internal {
